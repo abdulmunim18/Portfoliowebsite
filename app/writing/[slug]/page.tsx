@@ -12,7 +12,7 @@ type PageProps = { params: Promise<{ slug: string }> }
 export const revalidate = 60
 
 async function getArticle(slug: string) {
-  return await sanityFetch(articleBySlugQuery, { slug }, ['article']) as CmsArticle | null
+  return await sanityFetch(articleBySlugQuery, { slug }, ['article', 'post']) as CmsArticle | null
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
