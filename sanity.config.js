@@ -14,6 +14,7 @@ import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
 
 export default defineConfig({
+  title: 'Abdul Munim Portfolio',
   basePath: '/studio',
   projectId,
   dataset,

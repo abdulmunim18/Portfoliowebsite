@@ -196,6 +196,31 @@ button, input, textarea, select { font: inherit; }
 .worklog-row time { color: var(--muted); font: 600 .75rem var(--font-jetbrains), monospace; }
 .worklog-row h2 { margin: 0; font-size: 1.15rem; }
 .worklog-row p { margin: .3rem 0 0; color: var(--muted); }
+.worklog-row .tag-list, .worklog-row .text-link { margin-top: 1rem; }
+.writing-list { display: grid; gap: 1rem; }
+.cms-card { transition: transform .5s cubic-bezier(0,0,.2,1), border-color .5s ease, box-shadow .5s ease; }
+.cms-card:hover { transform: translateY(-6px); border-color: rgba(34,211,238,.22); box-shadow: 0 22px 60px rgba(0,0,0,.22); }
+.cms-card h2 { margin: 0; }
+.cms-card > p:not(.eyebrow) { color: var(--muted); }
+.cms-card .text-link { margin-top: 1.25rem; }
+.page-hero-article { min-height: auto; }
+.article-shell { max-width: 860px !important; }
+.portable-content { color: #c7d0df; font-size: 1.02rem; line-height: 1.85; }
+.portable-content > *:first-child { margin-top: 0; }
+.portable-content h2, .portable-content h3, .portable-content h4 { color: white; line-height: 1.2; letter-spacing: -.035em; }
+.portable-content h2 { margin: 2.8rem 0 1rem; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+.portable-content h3 { margin: 2.2rem 0 .8rem; font-size: 1.5rem; }
+.portable-content p, .portable-content ul, .portable-content ol, .portable-content blockquote { margin: 0 0 1.4rem; }
+.portable-content ul, .portable-content ol { padding-left: 1.4rem; }
+.portable-content a { color: #67e8f9; text-decoration: underline; text-underline-offset: 3px; }
+.portable-content blockquote { padding: .2rem 0 .2rem 1.2rem; border-left: 3px solid #22d3ee; color: #aab6c8; }
+.portable-content figure { margin: 2rem 0; }
+.portable-content figure img { width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--line); }
+.portable-content figcaption { margin-top: .65rem; color: var(--muted); text-align: center; font-size: .82rem; }
+.code-block { margin: 1.7rem 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: #030817; }
+.code-block > p { margin: 0; padding: .65rem 1rem; border-bottom: 1px solid var(--line); color: var(--muted); font: 600 .72rem var(--font-jetbrains), monospace; }
+.code-block pre { margin: 0; padding: 1rem; overflow-x: auto; }
+.code-block code { font: .82rem/1.7 var(--font-jetbrains), monospace; }
 
 @media (min-width: 700px) {
   .project-card { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; }

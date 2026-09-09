@@ -18,18 +18,23 @@ type FormValues = z.infer<typeof schema>
 
 export default function ContactForm({ defaultReason = '' }: { defaultReason?: string }) {
   const [serverMessage, setServerMessage] = useState('')
+  const [fallbackEmail, setFallbackEmail] = useState('')
   const { register, handleSubmit, reset, setError, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<FormValues>({ defaultValues: { reason: defaultReason } })
 
   const submit = async (values: FormValues) => {
     setServerMessage('')
+    setFallbackEmail('')
     const parsed = schema.safeParse(values)
     if (!parsed.success) {
       parsed.error.issues.forEach((issue) => setError(issue.path[0] as keyof FormValues, { message: issue.message }))
       return
     }
-    const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...parsed.data, subject: `[${parsed.data.reason}] ${parsed.data.subject}` }) })
+    const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(parsed.data) })
     const result = await response.json()
-    if (!response.ok) throw new Error(result.error || 'Unable to send your message.')
+    if (!response.ok) {
+      if (result.fallbackEmail) setFallbackEmail(result.fallbackEmail)
+      throw new Error(result.error || 'Unable to send your message.')
+    }
     setServerMessage(result.message || 'Message sent successfully.')
     reset({ name: '', email: '', reason: defaultReason, subject: '', message: '', honeypot: '' })
   }
@@ -41,6 +46,6 @@ export default function ContactForm({ defaultReason = '' }: { defaultReason?: st
     <div className="field"><label htmlFor="message">Message</label><textarea id="message" {...register('message')} aria-invalid={Boolean(errors.message)} />{errors.message ? <span className="form-note">{errors.message.message}</span> : null}</div>
     <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true"><label htmlFor="company">Company website</label><input id="company" tabIndex={-1} autoComplete="off" {...register('honeypot')} /></div>
     <button className="button button-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Sending...' : <>Send message <Send size={16} /></>}</button>
-    {serverMessage ? <p className="form-note" role="status">{serverMessage}</p> : null}
+    {serverMessage ? <p className="form-note" role="status">{serverMessage}{fallbackEmail ? <> <a className="text-link" href={`mailto:${fallbackEmail}`}>Email {fallbackEmail}</a></> : null}</p> : null}
   </form>
 }

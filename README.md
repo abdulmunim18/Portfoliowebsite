@@ -60,6 +60,8 @@ Open [http://localhost:3000](http://localhost:3000) to view the result.
 4.  **Local Studio**: Next.js hosts the CMS Studio inside this deployment at `/studio`!
     You can run development mode and navigate to [http://localhost:3000/studio](http://localhost:3000/studio) to log in and start editing content.
 
+The V2 `/writing` and `/worklog` pages read the `Technical Article` and `Worklog Entry` document types directly from Sanity. Publish a document in Studio and it will appear on the relevant page after cache revalidation (within 60 seconds by default).
+
 ---
 
 ## ✍️ Non-Technical Content Editor's Guide

@@ -13,6 +13,7 @@ const contactSchema = z.object({
 })
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+const contactEmail = process.env.CONTACT_EMAIL || 'chmunim688@gmail.com'
 
 function escapeHtml(value: string) {
   return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character)
@@ -26,13 +27,13 @@ export async function POST(request: Request) {
     if (!parsed.success) return NextResponse.json({ error: 'Please check the form fields and try again.' }, { status: 400 })
     if (parsed.data.honeypot) return NextResponse.json({ success: true, message: 'Message received.' })
     if (!resend) {
-      console.info('Contact form accepted in development mode.', { reason: parsed.data.reason, email: parsed.data.email })
-      return NextResponse.json({ success: true, message: 'Development mode: submission validated successfully.' })
+      console.error('Contact form email delivery is not configured: RESEND_API_KEY is missing.')
+      return NextResponse.json({ error: 'Email delivery is temporarily unavailable. Please use the direct email link.', fallbackEmail: contactEmail }, { status: 503 })
     }
     const { name, email, reason, subject, message } = parsed.data
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>',
-      to: process.env.CONTACT_EMAIL || 'chmunim688@gmail.com',
+      to: contactEmail,
       subject: `[Portfolio / ${reason}] ${subject}`,
       replyTo: email,
       html: `<h2>New portfolio inquiry</h2><p><strong>Name:</strong> ${escapeHtml(name)}</p><p><strong>Email:</strong> ${escapeHtml(email)}</p><p><strong>Reason:</strong> ${escapeHtml(reason)}</p><p><strong>Subject:</strong> ${escapeHtml(subject)}</p><p><strong>Message:</strong></p><div style="white-space:pre-wrap">${escapeHtml(message)}</div>`,

@@ -11,7 +11,7 @@ export async function POST(req) {
     const secret = searchParams.get('secret')
 
     // Verify secret token matches config
-    if (secret !== process.env.REVALIDATION_SECRET) {
+    if (!process.env.SANITY_REVALIDATE_SECRET || secret !== process.env.SANITY_REVALIDATE_SECRET) {
       return NextResponse.json({ message: 'Invalid token' }, { status: 401 })
     }
 
@@ -29,6 +29,8 @@ export async function POST(req) {
       skill: 'skill',
       experience: 'experience',
       siteSettings: 'settings',
+      worklog: 'worklog',
+      article: 'article',
     }
 
     const tagToRevalidate = tagMap[type]
