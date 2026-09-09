@@ -5,6 +5,8 @@ import skill from './skill'
 import experience from './experience'
 import siteSettings from './siteSettings'
 import prompt from './prompt'
+import worklog from './worklog'
+import article from './article'
 
 export const schemaTypes = [
   blockContent,
@@ -14,5 +16,7 @@ export const schemaTypes = [
   experience,
   siteSettings,
   prompt,
+  worklog,
+  article,
 ]
 

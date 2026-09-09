@@ -34,11 +34,11 @@ const skill = {
       description: 'Icon identifier (e.g., "react", "python", "nodejs"). Used for display.',
     },
     {
-      name: 'proficiency',
-      title: 'Proficiency',
-      type: 'number',
-      description: 'Skill level from 1 to 100',
-      validation: (Rule) => Rule.min(1).max(100),
+      name: 'evidence',
+      title: 'Evidence / practical use',
+      type: 'text',
+      rows: 2,
+      description: 'A short factual note about where or how this skill was used.',
     },
     {
       name: 'order',
