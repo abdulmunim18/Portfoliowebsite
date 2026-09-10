@@ -1,15 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowDownToLine, ArrowRight, BriefcaseBusiness, CircleUserRound, Code2, ExternalLink, GitBranch, GraduationCap, Mail } from 'lucide-react'
+import { ArrowDownToLine, ArrowRight, CircleUserRound, ExternalLink, GitBranch, Mail } from 'lucide-react'
 import ContactForm from '@/components/contact/ContactForm'
 import { ProjectAccordion } from '@/components/projects/ProjectAccordion'
 import { Container } from '@/components/v2/Container'
+import { LottieIllustration } from '@/components/v2/LottieIllustration'
 import { PortfolioMotion } from '@/components/v2/PortfolioMotion'
 import { formatCmsDate, type CmsArticle } from '@/data/cms'
 import { experience } from '@/data/experience'
 import { personal } from '@/data/personal'
 import { projects } from '@/data/projects'
-import { skillGroups } from '@/data/skills'
+import { skillLogos } from '@/data/skills'
 import { sanityFetch } from '@/lib/sanity/client'
 import { allArticlesQuery } from '@/lib/sanity/queries'
 
@@ -19,6 +20,10 @@ const codeSkills = ['React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Postgr
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return <div className="neon-section-label"><span>{children}</span></div>
+}
+
+function WorkspaceIcon() {
+  return <span className="workspace-icon" aria-hidden="true"><i /><b /></span>
 }
 
 export default async function HomePage() {
@@ -56,18 +61,24 @@ export default async function HomePage() {
     <section id="experience" className="reference-section timeline-section"><Container>
       <SectionLabel>Experiences</SectionLabel>
       <div className="timeline-layout reveal-on-scroll">
-        <div className="section-illustration" aria-hidden="true"><div className="illustration-orbit"><BriefcaseBusiness size={64} /></div><span>AI</span><span>API</span><span>WEB</span></div>
+        <div className="section-illustration"><LottieIllustration type="experience" /></div>
         <div className="timeline-list">
-          <article className="timeline-card pointer-glow"><p>{experience.period}</p><div className="timeline-card-row"><BriefcaseBusiness /><div><h3>{experience.role}</h3><span>{experience.company}</span></div></div></article>
-          <article className="timeline-card pointer-glow"><p>2024 - Present</p><div className="timeline-card-row"><Code2 /><div><h3>FULL-STACK DEVELOPER</h3><span>Personal &amp; academic projects</span></div></div></article>
-          <article className="timeline-card pointer-glow"><p>2023 - Present</p><div className="timeline-card-row"><Code2 /><div><h3>CONTINUOUS LEARNER</h3><span>Building and learning every day</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>{experience.period}</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>{experience.role}</h3><span>{experience.company}</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>2024 - Present</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>FULL-STACK DEVELOPER</h3><span>Personal &amp; academic projects</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>2023 - Present</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>CONTINUOUS LEARNER</h3><span>Building and learning every day</span></div></div></article>
         </div>
       </div>
     </Container></section>
 
     <section id="skills" className="reference-section skills-section"><Container>
       <SectionLabel>Skills</SectionLabel>
-      <div className="skill-marquee reveal-on-scroll">{[...skillGroups, ...skillGroups].map((group, groupIndex) => group.skills.map((skill) => <div className="skill-tile" key={`${group.title}-${skill}-${groupIndex}`}><Code2 /><span>{skill}</span></div>))}</div>
+      <div className="skill-marquee reveal-on-scroll" aria-label="Technology skills">
+        {[...skillLogos, ...skillLogos].map((skill, index) => <div className="skill-tile" key={`${skill.name}-${index}`} aria-hidden={index >= skillLogos.length}>
+          <div className="skill-card-line" />
+          <div className="skill-logo-wrap"><Image src={skill.image} alt="" width={48} height={48} /></div>
+          <span>{skill.name}</span>
+        </div>)}
+      </div>
     </Container></section>
 
     <section id="projects" className="reference-section projects-section"><Container>
@@ -78,11 +89,11 @@ export default async function HomePage() {
     <section id="education" className="reference-section timeline-section education-section"><Container>
       <SectionLabel>Education</SectionLabel>
       <div className="timeline-layout reveal-on-scroll">
-        <div className="section-illustration education-art" aria-hidden="true"><div className="illustration-orbit"><GraduationCap size={68} /></div><span>CS</span><span>DSA</span><span>AI</span></div>
+        <div className="section-illustration education-art"><LottieIllustration type="education" /></div>
         <div className="timeline-list">
-          <article className="timeline-card pointer-glow"><p>2023 - 2027</p><div className="timeline-card-row"><GraduationCap /><div><h3>BS COMPUTER SCIENCE</h3><span>Air University, Islamabad</span></div></div></article>
-          <article className="timeline-card pointer-glow"><p>Current CGPA</p><div className="timeline-card-row"><GraduationCap /><div><h3>3.0 / 4.00</h3><span>Software Engineering, DSA, Web &amp; AI</span></div></div></article>
-          <article className="timeline-card pointer-glow"><p>Learning focus</p><div className="timeline-card-row"><GraduationCap /><div><h3>PRODUCTION ENGINEERING</h3><span>Full-stack systems and AI automation</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>2023 - 2027</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>BS COMPUTER SCIENCE</h3><span>Air University, Islamabad</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>Current CGPA</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>3.0 / 4.00</h3><span>Software Engineering, DSA, Web &amp; AI</span></div></div></article>
+          <article className="timeline-card pointer-glow"><p>Learning focus</p><div className="timeline-card-row"><WorkspaceIcon /><div><h3>PRODUCTION ENGINEERING</h3><span>Full-stack systems and AI automation</span></div></div></article>
         </div>
       </div>
     </Container></section>
