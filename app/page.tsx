@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowDownToLine, ArrowRight, CircleUserRound, ExternalLink, GitBranch, Mail } from 'lucide-react'
 import ContactForm from '@/components/contact/ContactForm'
-import { ProjectAccordion } from '@/components/projects/ProjectAccordion'
+import { ProjectStack } from '@/components/projects/ProjectStack'
 import { Container } from '@/components/v2/Container'
 import { LottieIllustration } from '@/components/v2/LottieIllustration'
 import { PortfolioMotion } from '@/components/v2/PortfolioMotion'
@@ -10,7 +10,7 @@ import { formatCmsDate, type CmsArticle } from '@/data/cms'
 import { experience } from '@/data/experience'
 import { personal } from '@/data/personal'
 import { projects } from '@/data/projects'
-import { skillLogos } from '@/data/skills'
+import { SkillsMarquee } from '@/components/skills/SkillsMarquee'
 import { sanityFetch } from '@/lib/sanity/client'
 import { allArticlesQuery } from '@/lib/sanity/queries'
 
@@ -70,21 +70,9 @@ export default async function HomePage() {
       </div>
     </Container></section>
 
-    <section id="skills" className="reference-section skills-section"><Container>
-      <SectionLabel>Skills</SectionLabel>
-      <div className="skill-marquee reveal-on-scroll" aria-label="Technology skills">
-        {[...skillLogos, ...skillLogos].map((skill, index) => <div className="skill-tile" key={`${skill.name}-${index}`} aria-hidden={index >= skillLogos.length}>
-          <div className="skill-card-line" />
-          <div className="skill-logo-wrap"><Image src={skill.image} alt="" width={48} height={48} /></div>
-          <span>{skill.name}</span>
-        </div>)}
-      </div>
-    </Container></section>
+    <section id="skills" className="reference-skills-section"><Container><SkillsMarquee /></Container></section>
 
-    <section id="projects" className="reference-section projects-section"><Container>
-      <SectionLabel>Projects</SectionLabel>
-      <ProjectAccordion projects={projects} />
-    </Container></section>
+    <section id="projects" className="reference-projects-section"><Container><ProjectStack projects={projects} /></Container></section>
 
     <section id="education" className="reference-section timeline-section education-section"><Container>
       <SectionLabel>Education</SectionLabel>

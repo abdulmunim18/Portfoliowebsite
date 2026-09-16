@@ -19,6 +19,7 @@
 
 # production
 /build
+/.reference-developer-portfolio/
 
 # misc
 .DS_Store
